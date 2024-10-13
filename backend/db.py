@@ -7,7 +7,8 @@ load_dotenv()
 
 # Replace with your actual MongoDB URI
 MONGODB_URI = os.getenv('MONGO_URI')  # For local MongoDB 
-print(MONGODB_URI)
+
+
 client = MongoClient(MONGODB_URI)
 chat_db = client.get_database('Chatapp')
 users_collection = chat_db.get_collection('users')

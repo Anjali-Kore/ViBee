@@ -57,7 +57,7 @@ def register():
 
     if get_user(username):
         return jsonify({'msg': 'User already exists'}), 409
-    
+
     success = save_user(username, email, password)
     if success:
         return jsonify({'msg': 'User created successfully'}), 201
