@@ -1,8 +1,9 @@
-// src/components/SignUp.jsx
+// src/components/SignUp.jsx (modified)
 
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import VerifyOTP from './VerifyOTP'; // Import the new VerifyOTP component
 
 function SignUp() {
   const [username, setUsername] = useState('');
@@ -13,6 +14,7 @@ function SignUp() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  const [isRegistered, setIsRegistered] = useState(false); // New state to track registration
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -43,11 +45,8 @@ function SignUp() {
       });
 
       if (response.status === 201) {
-        setSuccess('Registration successful! Redirecting to login...');
-        // Redirect to login after a short delay
-        setTimeout(() => {
-          navigate('/login');
-        }, 2000);
+        setSuccess('Registration successful! Please verify your email with the OTP sent.');
+        setIsRegistered(true); // Set registration flag
       }
     } catch (err) {
       if (err.response && err.response.data && err.response.data.msg) {
@@ -56,7 +55,12 @@ function SignUp() {
         setError('An error occurred during registration.');
       }
     }
-  }; 
+  };
+
+  if (isRegistered) {
+    // Render the VerifyOTP component after registration
+    return <VerifyOTP email={email} />;
+  }
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
@@ -100,7 +104,7 @@ function SignUp() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            placeholder="Create a 6 character password"
+            placeholder="Create a password"
           />
         </div>
         <div className="mb-4">
