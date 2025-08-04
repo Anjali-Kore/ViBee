@@ -3,9 +3,12 @@
 from pymongo import MongoClient, DESCENDING
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+import os
+from dotenv import load_dotenv
 
-# Replace with your actual MongoDB URI
-MONGODB_URI = "mongodb+srv://Anjali:AnjaliKore@myatlasclusteredu.rtkazvh.mongodb.net/"  # For local MongoDB anjali kore something tha na url haa
+load_dotenv()  # loads variables from .env
+
+MONGODB_URI = os.environ.get("MONGODB_URI")
 
 client = MongoClient(MONGODB_URI)
 chat_db = client.get_database('Chatapp')
